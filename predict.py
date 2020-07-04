@@ -71,5 +71,6 @@ model = ClassificationModel('roberta', m,
 # print(result)
 
 pred, prob = model.predict(test['text'].tolist())
-pd.DataFrame(pred, columns=['target']).to_csv('submission.csv')
-
+pred_df = pd.DataFrame(pred, columns=['target'])
+pred['id'] = test['id']
+pred.to_csv('submission.csv')
