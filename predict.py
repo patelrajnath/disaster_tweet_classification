@@ -69,5 +69,6 @@ model = ClassificationModel('roberta', m,
 # result, model_outputs, wrong_predictions = model.eval_model(eval_df)
 # print(result)
 
-print(model.predict(test['text'].tolist()))
+pred, prob = model.predict(test['text'].tolist())
+pd.DataFrame(pred, columns=['id', 'target']).to_scv('submition.csv')
 
