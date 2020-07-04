@@ -28,16 +28,33 @@ def split_to_train_test(df, label_column, train_frac=0.8):
 train = train.rename(columns={'target': 'labels'})
 train_df, eval_df = split_to_train_test(train, 'labels', 0.7)
 
+
+train_args = {
+    'learning_rate': 3e-05,
+    'evaluate_during_training': True,
+    'evaluate_during_training_verbose': True,
+    "evaluate_during_training_steps": 500,
+    "use_cached_eval_features": False,
+    "logging_steps": 500,
+    'use_early_stopping': True,
+    'early_stopping_patience': 7,
+    'weight_decay': 0.000001,
+    'do_lower_case': False,
+    "wandb_project": False,
+    'num_train_epochs': 20,
+    'fp16_opt_level': 'O1',
+    'fp16': True,
+    'output_dir': 'outputs-optim-params',
+    'overwrite_output_dir': True,
+    'train_batch_size': 8,
+    "gradient_accumulation_steps": 1,
+}
+
 # Create a ClassificationModel
 model = ClassificationModel('roberta',
                             'roberta-base',
-                            args = {
-                                'fp16' : False,
-                                'num_train_epochs': 1,
-                                'evaluate_during_training': True,
-                                'evaluate_during_training_steps': 200
-                            },
-                            use_cuda = False,
+                            args = train_args,
+                            use_cuda = True,
 ) # You can set class weights by using the optional weight argument
 
 # Train the model
