@@ -39,6 +39,7 @@ m = 'outputs/best_model'
 # Create a ClassificationModel
 model = ClassificationModel('roberta', m,
                             args = {
+                                'use_multiprocessing': False,
                                 'reprocess_input_data': True,
                                 'num_train_epochs': 45,
                                 'learning_rate': 2e-05,
@@ -59,7 +60,7 @@ model = ClassificationModel('roberta', m,
                                 'save_eval_checkpoints': False,
                                 'save_model_every_epoch': False
                             },
-                            use_cuda = True,
+                            use_cuda = False,
 ) # You can set class weights by using the optional weight argument
 
 # Train the model
@@ -70,5 +71,5 @@ model = ClassificationModel('roberta', m,
 # print(result)
 
 pred, prob = model.predict(test['text'].tolist())
-pd.DataFrame(pred, columns=['id', 'target']).to_scv('submition.csv')
+pd.DataFrame(pred, columns=['target']).to_csv('submission.csv')
 
